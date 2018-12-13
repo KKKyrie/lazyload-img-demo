@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Demo</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .screen {
+      border: 5px solid black;
+      width: 500px;
+      height: 300px;
+
+      display: flex;
+      justify-content: center;
+
+      overflow: scroll;
+    }
+
+    .nonsense {
+      width: 100px;
+      height: 400px;
+    }
+
+    .lazyload-img {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      background-size: cover;
+    }
+
+    h2 {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 模拟屏幕 -->
+    <div class="screen">
+      <div>
+          <div class="nonsense"></div>
+          <div class="lazyload-img"></div>
+          <div class="nonsense"></div>
+      </div>
+    </div>
+    <h1>假如上面的是屏幕</h1>
+    <h2 id="hint">请用 PC 访问以获得最佳体验 😊</h2>
+  </div>
+
+
+  <script>
+    (function(){
+      
+      function find(selector){
+        return document.querySelector(selector);
+      }
+
+      function isPhone(){
+        var hint = find('#hint');
+        var ua = navigator.userAgent;
+        var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+        for (var i = 0; i < Agents.length; i++) {
+          if (ua.indexOf(Agents[i]) > 0) {
+            hint.style.display = 'block';
+            break;
+          }
+        }
+      }
+      isPhone();
+      
+      var imgUrl = 'https://kyrieliu.cn/images/head.png';
+      var screenDiv = find('.screen');
+      var screenHeight = parseInt(window.getComputedStyle(screenDiv)['height']);
+      
+      var img = find('.lazyload-img');
+
+      function lazyload(){
+        var distance = screenHeight - img.getBoundingClientRect()['top'];
+        if (distance > 100) {
+          img.style.backgroundImage = `url("${imgUrl}")`;
+          screenDiv.removeEventListener('scroll', lazyload, false);
+        }
+      }
+
+      screenDiv.addEventListener('scroll', lazyload, false);
+      
+    })();
+  </script>
+</body>
+</html>
