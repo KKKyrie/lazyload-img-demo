@@ -1,2 +1,2 @@
 # lazyload-img-demo
-关于图片懒加载的 demo
+关于[图片懒加载](https://kyrieliu.cn/blog/2018/12/13/lazy-load/)的 demo
